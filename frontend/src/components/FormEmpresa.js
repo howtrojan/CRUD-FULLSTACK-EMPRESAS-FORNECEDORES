@@ -46,45 +46,45 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
     if (onEdit) {
       const empresas = ref.current;
 
-      empresas.nomeEmpresa.value = onEdit.nome_empresa;
+      empresas.nome_empresa.value = onEdit.nome_empresa;
       empresas.endereco.value = onEdit.endereco;
-      empresas.fone.value = onEdit.telefone;
+      empresas.telefone.value = onEdit.telefone;
     }
   }, [onEdit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const empresas = ref.current;
-
-    if (!empresas.nomeEmpresa.value || !empresas.fone.value || !empresas.endereco.value) {
+  
+    if (!empresas.nome_empresa.value || !empresas.telefone.value || !empresas.endereco.value) {
       return toast.warn("Preencha todos os campos!");
     }
-
+  
     if (onEdit) {
       await axios
-        .put("http://localhost:8800/empresas/" + onEdit.id, {
-          nome_empresa: empresas.nomeEmpresa.value,
+        .put(`http://localhost:8800/empresas/${onEdit.id_empresa}`, {  // Corrigindo a URL do PUT
+          nome_empresa: empresas.nome_empresa.value,
           endereco: empresas.endereco.value,
-          telefone: empresas.fone.value,
+          telefone: empresas.telefone.value,
         })
         .then(({ data }) => toast.success(data))
-        .catch(({ data }) => toast.error(data));
+        .catch(({ response }) => toast.error(response.data.message)); // Exibindo a mensagem de erro da resposta da API
     } else {
       await axios
-        .post("http://localhost:8800/empresas/", {
-          nome_empresa: empresas.nomeEmpresa.value,
+        .post("http://localhost:8800/", {
+          nome_empresa: empresas.nome_empresa.value,
           endereco: empresas.endereco.value,
-          telefone: empresas.fone.value,
+          telefone: empresas.telefone.value,
         })
         .then(({ data }) => toast.success(data))
-        .catch(({ data }) => toast.error(data));
+        .catch(({ response }) => toast.error(response.data.message)); // Exibindo a mensagem de erro da resposta da API
     }
-
-    empresas.nomeEmpresa.value = "";
+  
+    empresas.nome_empresa.value = "";
     empresas.endereco.value = "";
-    empresas.fone.value = "";
-
+    empresas.telefone.value = "";
+  
     setOnEdit(null);
     getEmpresas();
   };
@@ -93,7 +93,7 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
     <FormContainer ref={ref} onSubmit={handleSubmit}>
       <InputArea>
         <Label>Nome da Empresa</Label>
-        <Input name="nomeEmpresa" />
+        <Input name="nome_empresa" />
       </InputArea>
       <InputArea>
         <Label>Endereço</Label>
@@ -101,7 +101,7 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
       </InputArea>
       <InputArea>
         <Label>Telefone</Label>
-        <Input name="fone" />
+        <Input name="telefone" />
       </InputArea>
 
       <Button type="submit">SALVAR</Button>

@@ -45,22 +45,22 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
   const handleEdit = (item) => {
     setOnEdit(item);
   };
-
+  
   const handleDelete = async (id_empresa) => {
-    await axios
-      .delete("http://localhost:8800/empresas/" + id_empresa)
-      .then(({ data }) => {
-        const newArray = empresas.filter(
-          (empresas) => empresas.id_empresa !== id_empresa
-        );
-
-        setEmpresas(newArray);
-        toast.success(data);
-      })
-      .catch(({ data }) => toast.error(data));
-
+    try {
+      await axios.delete(`http://localhost:8800/empresas/${id_empresa}`);
+      const newArray = empresas.filter((empresa) => empresa.id_empresa !== id_empresa);
+      setEmpresas(newArray);
+      toast.success("Empresa deletada com sucesso.");
+    } catch (error) {
+      toast.error("Erro ao deletar empresa.");
+    }
     setOnEdit(null);
   };
+  
+  
+  
+  
 
   return (
     <Table>

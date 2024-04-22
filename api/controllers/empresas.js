@@ -15,7 +15,7 @@ export const addEmpresas = (req, res) => {
       "INSERT INTO empresas(`nome_empresa`, `endereco`, `telefone`) VALUES(?)";
   
     const values = [
-      req.body.nomeEmpresa,
+      req.body.nome_empresa,
       req.body.endereco,
       req.body.telefone,      
     ];
@@ -27,9 +27,9 @@ export const addEmpresas = (req, res) => {
     });
   };
   
-  export const updateUser = (req, res) => {
+  export const updateEmpresas = (req, res) => {
     const q =
-      "UPDATE empresas SET `nome_empresa` = ?, `endereco` = ?, `telefone` = ? WHERE `id` = ?";
+      "UPDATE empresas SET `nome_empresa` = ?, `endereco` = ?, `telefone` = ? WHERE `id_empresa` = ?";
   
     const values = [
       req.body.nome_empresa,
@@ -37,19 +37,27 @@ export const addEmpresas = (req, res) => {
       req.body.telefone,      
     ];
   
-    db.query(q, [...values, req.params.id], (err) => {
+    db.query(q, [...values, req.params.id_empresa], (err) => {
       if (err) return res.json(err);
   
       return res.status(200).json("Empresa atualizada com sucesso.");
     });
   };
   
-  export const deleteUser = (req, res) => {
-    const q = "DELETE FROM empresas WHERE `id` = ?";
+  export const deleteEmpresas = (req, res) => {
+    const q = "DELETE FROM empresas WHERE `id_empresa` = ?";
   
-    db.query(q, [req.params.id_empresa], (err) => {
-      if (err) return res.json(err);
+    db.query(q, [req.params.id_empresa], (err, result) => {
+      if (err) {
+        console.error("Erro ao excluir empresa:", err);
+        return res.status(500).json("Erro ao excluir empresa.");
+      }
   
-      return res.status(200).json("Empresa deletada com sucesso.");
+      if (result.affectedRows === 0) {
+        return res.status(404).json("Empresa não encontrada.");
+      }
+  
+      return res.status(200).json("Empresa excluída com sucesso.");
     });
   };
+  
