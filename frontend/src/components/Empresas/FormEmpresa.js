@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { toast } from "react-toastify";
 
 const FormContainer = styled.form`
@@ -39,8 +39,30 @@ const Button = styled.button`
   height: 42px;
 `;
 
+const Select = styled.select`
+  width: 150px;
+  padding: 0 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  height: 40px;
+`;
+
 const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
+  const [setores, setSetores] = useState([]);
   const ref = useRef();
+
+  useEffect(() => {
+    const fetchSetores = async () => {
+      try {
+        const response = await axios.get("http://localhost:8800/setores");
+        setSetores(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar setores:", error);
+      }
+    };
+
+    fetchSetores();
+  }, []);
 
   useEffect(() => {
     if (onEdit) {
@@ -61,12 +83,19 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
       return toast.warn("Preencha todos os campos!");
     }
   
+    const idSetor = empresas.setor.value; // Obtém o ID do setor selecionado
+
+    if (!idSetor) {
+      return toast.warn("Selecione um setor!");
+    }
+  
     if (onEdit) {
       await axios
         .put(`http://localhost:8800/empresas/${onEdit.id}`, {  
           razao_social: empresas.razao_social.value,
           nome_fantasia: empresas.nome_fantasia.value,
           cnpj: empresas.cnpj.value,
+          id_setor: idSetor 
         })
         .then(({ data }) => toast.success(data))
         .catch(({ response }) => toast.error(response.data.message)); 
@@ -76,14 +105,16 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
           razao_social: empresas.razao_social.value,
           nome_fantasia: empresas.nome_fantasia.value,
           cnpj: empresas.cnpj.value,
+          id_setor: idSetor // Passa o ID do setor para criação
         })
         .then(({ data }) => toast.success(data))
-        .catch(({ response }) => toast.error(response.data.message)); // Exibindo a mensagem de erro da resposta da API
+        .catch(({ response }) => toast.error(response.data.message)); 
     }
   
     empresas.razao_social.value = "";
     empresas.nome_fantasia.value = "";
     empresas.cnpj.value = "";
+    empresas.setor.value = ""; 
   
     setOnEdit(null);
     getEmpresas();
@@ -92,7 +123,7 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
   return (
     <FormContainer ref={ref} onSubmit={handleSubmit}>
       <InputArea>
-        <Label>Razao Social</Label>
+        <Label>Razão Social</Label>
         <Input name="razao_social" />
       </InputArea>
       <InputArea>
@@ -102,6 +133,15 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
       <InputArea>
         <Label>CNPJ</Label>
         <Input name="cnpj" />
+      </InputArea>
+      <InputArea>
+        <Label>Setor</Label>
+        <Select name="setor">
+          <option value="">Selecione o setor</option>
+          {setores.map((setor) => (
+            <option key={setor.id} value={setor.id}>{setor.descricao}</option>
+          ))}
+        </Select>
       </InputArea>
 
       <Button type="submit">SALVAR</Button>

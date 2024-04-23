@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
@@ -15,13 +15,13 @@ const Table = styled.table`
   word-break: break-all;
 `;
 
-export const Thead = styled.thead``;
+const Thead = styled.thead``;
 
-export const Tbody = styled.tbody``;
+const Tbody = styled.tbody``;
 
-export const Tr = styled.tr``;
+const Tr = styled.tr``;
 
-export const Th = styled.th`
+const Th = styled.th`
   text-align: start;
   border-bottom: inset;
   padding-bottom: 5px;
@@ -31,7 +31,7 @@ export const Th = styled.th`
   }
 `;
 
-export const Td = styled.td`
+const Td = styled.td`
   padding-top: 15px;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width : "auto")};
@@ -42,10 +42,32 @@ export const Td = styled.td`
 `;
 
 const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
-  const handleEdit = (item) => {
-    setOnEdit(item);
+  const [setores, setSetores] = useState({});
+
+  useEffect(() => {
+    const fetchSetores = async () => {
+      try {
+        const response = await axios.get("http://localhost:8800/setores");
+        const setoresData = {};
+        response.data.forEach((setor) => {
+          setoresData[setor.id] = setor.descricao;
+        });
+        setSetores(setoresData);
+      } catch (error) {
+        console.error("Erro ao buscar setores:", error);
+      }
+    };
+
+    fetchSetores();
+  }, []);
+
+  const handleEdit = (item) => {    
+    const setorDescricao = setores[item.id_setor];    
+    const empresaComSetor = { ...item, setor: setorDescricao };  
+    setOnEdit(empresaComSetor);
   };
   
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8800/empresas/${id}`);
@@ -57,10 +79,6 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
     }
     setOnEdit(null);
   };
-  
-  
-  
-  
 
   return (
     <Table>
@@ -69,6 +87,7 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
           <Th>Razao Social</Th>
           <Th>Nome Fantasia</Th>
           <Th onlyWeb>CNPJ</Th>
+          <Th>Setor</Th>
           <Th></Th>
           <Th></Th>
         </Tr>
@@ -81,6 +100,7 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
             <Td width="20%" onlyWeb>
               {item.cnpj}
             </Td>
+            <Td>{setores[item.id_setor]}</Td> {/* Renderizando o nome do setor */}
             <Td alignCenter width="5%">
               <FaEdit onClick={() => handleEdit(item)} />
             </Td>

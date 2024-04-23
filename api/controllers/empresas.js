@@ -11,30 +11,33 @@ export const getEmpresas = (_, res) => {
 }
 
 export const addEmpresas = (req, res) => {
-    const q =
-      "INSERT INTO empresa(`razao_social`, `nome_fantasia`, `cnpj`) VALUES(?)";
+  const q =
+    "INSERT INTO empresa(`razao_social`, `nome_fantasia`, `cnpj`, `id_setor`) VALUES(?, ?, ?, ?)";
   
-    const values = [
-      req.body.razao_social,
-      req.body.nome_fantasia,
-      req.body.cnpj,      
-    ];
-  
-    db.query(q, [values], (err) => {
-      if (err) return res.json(err);
-  
-      return res.status(200).json("Empresa Criada com Sucesso");
-    });
-  };
+  const values = [
+    req.body.razao_social,
+    req.body.nome_fantasia,
+    req.body.cnpj,
+    req.body.id_setor, 
+  ];
+
+  db.query(q, values, (err) => {
+    if (err) return res.json(err);
+
+    return res.status(200).json("Empresa Criada com Sucesso");
+  });
+};
+
   
   export const updateEmpresas = (req, res) => {
     const q =
-      "UPDATE empresa SET `razao_social` = ?, `nome_fantasia` = ?, `cnpj` = ? WHERE `id` = ?";
+      "UPDATE empresa SET `razao_social` = ?, `nome_fantasia` = ?, `cnpj` = ?, `id_setor` = ? WHERE `id` = ?";
   
     const values = [
       req.body.razao_social,
       req.body.nome_fantasia,
-      req.body.cnpj,       
+      req.body.cnpj,  
+      req.body.id_setor,      
     ];
   
     db.query(q, [...values, req.params.id], (err) => {

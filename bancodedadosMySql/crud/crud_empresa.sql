@@ -24,11 +24,14 @@ DROP TABLE IF EXISTS `empresa`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `empresa` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `razao_social` varchar(255) NOT NULL,
-  `nome_fantasia` varchar(255) NOT NULL,
-  `cnpj` varchar(14) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `razao_social` varchar(255) DEFAULT NULL,
+  `nome_fantasia` varchar(255) DEFAULT NULL,
+  `cnpj` varchar(14) DEFAULT NULL,
+  `id_setor` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_setor` (`id_setor`),
+  CONSTRAINT `fk_setor` FOREIGN KEY (`id_setor`) REFERENCES `setor` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +40,6 @@ CREATE TABLE `empresa` (
 
 LOCK TABLES `empresa` WRITE;
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` VALUES (3,'Leide1','Dromo','222');
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-23 10:43:12
+-- Dump completed on 2024-04-23 11:23:51
