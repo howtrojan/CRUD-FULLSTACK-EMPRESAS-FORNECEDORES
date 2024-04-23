@@ -26,19 +26,20 @@ export const addSetor = (req, res) => {
   };
   
   export const updateSetor = (req, res) => {
-    const q =
-      "UPDATE setor SET `descricao` = ?";
+    const q = "UPDATE setor SET `descricao` = ? WHERE `id` = ?";
   
     const values = [
-      req.body.descricao,          
+      req.body.descricao,
+      req.params.id,
     ];
   
-    db.query(q, [...values, req.params.id], (err) => {
+    db.query(q, values, (err) => {
       if (err) return res.json(err);
   
       return res.status(200).json("Setor atualizado com sucesso.");
     });
   };
+  
   
   export const deleteSetor = (req, res) => {
     const q = "DELETE FROM setor WHERE `id` = ?";
