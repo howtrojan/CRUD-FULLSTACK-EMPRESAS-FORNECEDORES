@@ -1,7 +1,7 @@
 import Global from "../../styles/global.js";
 import styled from "styled-components";
-import FormEmpresa from "./FormEmpresa.js";
-import GridEmpresa from "./GridEmpresa.js";
+import FormSetores from "./FormSetores.js";
+import GridSetores from "./GridSetores.js";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,31 +20,31 @@ const Container = styled.div`
 
 const Title = styled.h2``;
 
-function Empresas() {
-  const [empresas, setEmpresas] = useState([]);
+function Setores() {
+  const [setores, setSetores] = useState([]);
   const [onEdit, setOnEdit] = useState(null);
 
-  const getEmpresas = async () => {
+  const getSetor = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/empresas");
-      setEmpresas(res.data.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
+      const res = await axios.get("http://localhost:8800/setores");
+      setSetores(res.data.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
     } catch (error) {
       toast.error(error);
     }
   };
 
   useEffect(() => {
-    getEmpresas();
-  }, [setEmpresas]);
+    getSetor();
+  }, [setSetores]);
 
 
 
   return (
     <>
       <Container>
-        <Title>EMPRESAS</Title>
-        <FormEmpresa onEdit={onEdit} setOnEdit={setOnEdit} getEmpresas={getEmpresas}></FormEmpresa>
-        <GridEmpresa setOnEdit={setOnEdit} empresas={empresas} setEmpresas={setEmpresas}></GridEmpresa>
+        <Title>Setores</Title>
+        <FormSetores onEdit={onEdit} setOnEdit={setOnEdit} getSetor={getSetor}></FormSetores>
+        <GridSetores setOnEdit={setOnEdit} setores={setores} setSetores={setSetores}></GridSetores>
       </Container>
       <ToastContainer autoClose={3000}/>
       <Global />
@@ -52,4 +52,4 @@ function Empresas() {
   );
 }
 
-export default Empresas;
+export default Setores;

@@ -16,31 +16,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `empresa_fornecedor`
+-- Table structure for table `setor`
 --
 
-DROP TABLE IF EXISTS `empresa_fornecedor`;
+DROP TABLE IF EXISTS `setor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `empresa_fornecedor` (
-  `id_relacao` int NOT NULL AUTO_INCREMENT,
-  `id_empresa` int DEFAULT NULL,
-  `id_fornecedor` int DEFAULT NULL,
-  PRIMARY KEY (`id_relacao`),
-  KEY `id_empresa` (`id_empresa`),
-  KEY `id_fornecedor` (`id_fornecedor`),
-  CONSTRAINT `empresa_fornecedor_ibfk_1` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`),
-  CONSTRAINT `empresa_fornecedor_ibfk_2` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedores` (`id_fornecedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `setor` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `empresa_fornecedor`
+-- Dumping data for table `setor`
 --
 
-LOCK TABLES `empresa_fornecedor` WRITE;
-/*!40000 ALTER TABLE `empresa_fornecedor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empresa_fornecedor` ENABLE KEYS */;
+LOCK TABLES `setor` WRITE;
+/*!40000 ALTER TABLE `setor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `setor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-22 10:29:32
+-- Dump completed on 2024-04-23 10:43:12

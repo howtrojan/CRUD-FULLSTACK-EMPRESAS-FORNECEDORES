@@ -46,10 +46,10 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
     setOnEdit(item);
   };
   
-  const handleDelete = async (id_empresa) => {
+  const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8800/empresas/${id_empresa}`);
-      const newArray = empresas.filter((empresa) => empresa.id_empresa !== id_empresa);
+      await axios.delete(`http://localhost:8800/empresas/${id}`);
+      const newArray = empresas.filter((empresa) => empresa.id !== id);
       setEmpresas(newArray);
       toast.success("Empresa deletada com sucesso.");
     } catch (error) {
@@ -66,9 +66,9 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
     <Table>
       <Thead>
         <Tr>
-          <Th>Nome da Empresa</Th>
-          <Th>Endereço</Th>
-          <Th onlyWeb>Telefone</Th>
+          <Th>Razao Social</Th>
+          <Th>Nome Fantasia</Th>
+          <Th onlyWeb>CNPJ</Th>
           <Th></Th>
           <Th></Th>
         </Tr>
@@ -76,16 +76,16 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
       <Tbody>
         {empresas.map((item, i) => (
           <Tr key={i}>
-            <Td width="30%">{item.nome_empresa}</Td>
-            <Td width="30%">{item.endereco}</Td>
+            <Td width="30%">{item.razao_social}</Td>
+            <Td width="30%">{item.nome_fantasia}</Td>
             <Td width="20%" onlyWeb>
-              {item.telefone}
+              {item.cnpj}
             </Td>
             <Td alignCenter width="5%">
               <FaEdit onClick={() => handleEdit(item)} />
             </Td>
             <Td alignCenter width="5%">
-              <FaTrash onClick={() => handleDelete(item.id_empresa)} />
+              <FaTrash onClick={() => handleDelete(item.id)} />
             </Td>
           </Tr>
         ))}

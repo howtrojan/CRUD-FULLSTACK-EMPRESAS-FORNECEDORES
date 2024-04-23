@@ -1,6 +1,6 @@
-# Projeto CRUD Fullstack: Empresas e Fornecedores
+# Projeto CRUD Fullstack: Empresas e Setores
 
-Este é um projeto CRUD fullstack desenvolvido em React, Node.js e MySQL. O objetivo deste projeto é fornecer uma aplicação web para gerenciar informações de empresas e fornecedores.
+Este é um projeto CRUD fullstack desenvolvido em React, Node.js e MySQL. O objetivo deste projeto é fornecer uma aplicação web para gerenciar informações de empresas e seus setores.
 
 ## Funcionalidades
 

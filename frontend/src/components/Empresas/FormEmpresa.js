@@ -46,9 +46,9 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
     if (onEdit) {
       const empresas = ref.current;
 
-      empresas.nome_empresa.value = onEdit.nome_empresa;
-      empresas.endereco.value = onEdit.endereco;
-      empresas.telefone.value = onEdit.telefone;
+      empresas.razao_social.value = onEdit.razao_social;
+      empresas.nome_fantasia.value = onEdit.nome_fantasia;
+      empresas.cnpj.value = onEdit.cnpj;
     }
   }, [onEdit]);
 
@@ -57,33 +57,33 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
   
     const empresas = ref.current;
   
-    if (!empresas.nome_empresa.value || !empresas.telefone.value || !empresas.endereco.value) {
+    if (!empresas.razao_social.value || !empresas.nome_fantasia.value || !empresas.cnpj.value) {
       return toast.warn("Preencha todos os campos!");
     }
   
     if (onEdit) {
       await axios
-        .put(`http://localhost:8800/empresas/${onEdit.id_empresa}`, {  // Corrigindo a URL do PUT
-          nome_empresa: empresas.nome_empresa.value,
-          endereco: empresas.endereco.value,
-          telefone: empresas.telefone.value,
+        .put(`http://localhost:8800/empresas/${onEdit.id}`, {  
+          razao_social: empresas.razao_social.value,
+          nome_fantasia: empresas.nome_fantasia.value,
+          cnpj: empresas.cnpj.value,
         })
         .then(({ data }) => toast.success(data))
-        .catch(({ response }) => toast.error(response.data.message)); // Exibindo a mensagem de erro da resposta da API
+        .catch(({ response }) => toast.error(response.data.message)); 
     } else {
       await axios
-        .post("http://localhost:8800/", {
-          nome_empresa: empresas.nome_empresa.value,
-          endereco: empresas.endereco.value,
-          telefone: empresas.telefone.value,
+        .post("http://localhost:8800/empresas/", {
+          razao_social: empresas.razao_social.value,
+          nome_fantasia: empresas.nome_fantasia.value,
+          cnpj: empresas.cnpj.value,
         })
         .then(({ data }) => toast.success(data))
         .catch(({ response }) => toast.error(response.data.message)); // Exibindo a mensagem de erro da resposta da API
     }
   
-    empresas.nome_empresa.value = "";
-    empresas.endereco.value = "";
-    empresas.telefone.value = "";
+    empresas.razao_social.value = "";
+    empresas.nome_fantasia.value = "";
+    empresas.cnpj.value = "";
   
     setOnEdit(null);
     getEmpresas();
@@ -92,16 +92,16 @@ const FormEmpresa = ({ getEmpresas, onEdit, setOnEdit }) => {
   return (
     <FormContainer ref={ref} onSubmit={handleSubmit}>
       <InputArea>
-        <Label>Nome da Empresa</Label>
-        <Input name="nome_empresa" />
+        <Label>Razao Social</Label>
+        <Input name="razao_social" />
       </InputArea>
       <InputArea>
-        <Label>Endereço</Label>
-        <Input name="endereco" />
+        <Label>Nome Fantasia</Label>
+        <Input name="nome_fantasia" />
       </InputArea>
       <InputArea>
-        <Label>Telefone</Label>
-        <Input name="telefone" />
+        <Label>CNPJ</Label>
+        <Input name="cnpj" />
       </InputArea>
 
       <Button type="submit">SALVAR</Button>

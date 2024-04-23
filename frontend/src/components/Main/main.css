@@ -1,0 +1,28 @@
+.botoes {
+  display: flex;
+  gap: 30px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  color: aliceblue;
+  background-color: blue;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;  
+}
+
+.btn button{
+    color: aliceblue;
+    background-color: blue;
+    text-decoration: none;
+    border: none;
+    padding: 10px;
+}

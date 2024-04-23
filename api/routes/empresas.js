@@ -7,8 +7,8 @@ router.get("/", getEmpresas);
 
 router.post("/", addEmpresas)
 
-router.put("/:id_empresa", updateEmpresas)
+router.put("/:id", updateEmpresas)
 
-router.delete("/:id_empresa", deleteEmpresas)
+router.delete("/:id", deleteEmpresas)
 
 export default router;

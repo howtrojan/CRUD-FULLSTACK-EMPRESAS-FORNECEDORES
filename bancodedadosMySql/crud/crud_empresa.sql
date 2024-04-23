@@ -16,29 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `fornecedores`
+-- Table structure for table `empresa`
 --
 
-DROP TABLE IF EXISTS `fornecedores`;
+DROP TABLE IF EXISTS `empresa`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `fornecedores` (
-  `id_fornecedor` int NOT NULL AUTO_INCREMENT,
-  `nome_fornecedor` varchar(100) DEFAULT NULL,
-  `endereco` varchar(255) DEFAULT NULL,
-  `telefone` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id_fornecedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `empresa` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `razao_social` varchar(255) NOT NULL,
+  `nome_fantasia` varchar(255) NOT NULL,
+  `cnpj` varchar(14) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `fornecedores`
+-- Dumping data for table `empresa`
 --
 
-LOCK TABLES `fornecedores` WRITE;
-/*!40000 ALTER TABLE `fornecedores` DISABLE KEYS */;
-INSERT INTO `fornecedores` VALUES (1,'coca','rua teste 2','00000000000');
-/*!40000 ALTER TABLE `fornecedores` ENABLE KEYS */;
+LOCK TABLES `empresa` WRITE;
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
+INSERT INTO `empresa` VALUES (3,'Leide1','Dromo','222');
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-22 10:29:32
+-- Dump completed on 2024-04-23 10:43:12
