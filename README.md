@@ -1,3 +1,9 @@
+
+
+
+https://github.com/howtrojan/CRUD-FULLSTACK-EMPRESAS-SETORES/assets/147101575/4a08a326-880e-4f08-a4e3-3c786e39c5ac
+
+
 # Projeto CRUD Fullstack: Empresas e Setores
 
 Este é um projeto CRUD fullstack desenvolvido em React, Node.js e MySQL. O objetivo deste projeto é fornecer uma aplicação web para gerenciar informações de empresas e seus setores.
