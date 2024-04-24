@@ -4,13 +4,12 @@ import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const Table = styled.table`
-  width: 100%;
+const Table = styled.table`  
   background-color: #fff;
   padding: 20px;
   box-shadow: 0px 0px 5px #ccc;
   border-radius: 5px;
-  max-width: 1120px;
+  max-width: 100%; /* Alterado para ocupar 100% da largura disponível */
   margin: 20px auto;
   word-break: break-all;
 `;
@@ -74,7 +73,7 @@ const GridSetor = ({ setores, setSetores, setOnEdit }) => {
       <Tbody>
         {setores.map((item, i) => (
           <Tr key={i}>
-            <Td width="30%">{item.descricao}</Td>            
+            <Td width="60%">{item.descricao}</Td>            
             <Td alignCenter width="5%">
               <FaEdit onClick={() => handleEdit(item)} />
             </Td>
@@ -85,6 +84,7 @@ const GridSetor = ({ setores, setSetores, setOnEdit }) => {
         ))}
       </Tbody>
     </Table>
+    
   );
 };
 

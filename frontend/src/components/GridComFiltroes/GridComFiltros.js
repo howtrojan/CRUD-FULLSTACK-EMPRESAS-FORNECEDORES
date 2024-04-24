@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { FaTrash, FaEdit } from "react-icons/fa";
-import { toast } from "react-toastify";
 
 const Table = styled.table`
   width: 100%;
@@ -41,8 +39,10 @@ const Td = styled.td`
   }
 `;
 
-const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
-  const [setores, setSetores] = useState({});  
+const GridComFiltros = ({ empresas, setEmpresas, setOnEdit }) => {
+  const [setores, setSetores] = useState({});
+  const [filtroSetor, setFiltroSetor] = useState("");
+  const [filtroEmpresa, setFiltroEmpresa] = useState("");
 
   useEffect(() => {
     const fetchSetores = async () => {
@@ -60,27 +60,40 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
 
     fetchSetores();
   }, []);
-
-  const handleEdit = (item) => {    
-    const setorDescricao = setores[item.id_setor];    
-    const empresaComSetor = { ...item, setor: setorDescricao };  
-    setOnEdit(empresaComSetor);
-  };
   
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8800/empresas/${id}`);
-      const newArray = empresas.filter((empresa) => empresa.id !== id);
-      setEmpresas(newArray);
-      toast.success("Empresa deletada com sucesso.");
-    } catch (error) {
-      toast.error("Erro ao deletar empresa.");
-    }
-    setOnEdit(null);
+  
+   const filterEmpresa = (empresa) => {
+    return empresa.razao_social.toLowerCase().includes(filtroEmpresa.toLowerCase());
   };
+
+  
+  const filterSetor = (empresa) => {
+    if (!filtroSetor) return true;
+    const setorDescricao = setores[empresa.id_setor];
+    return setorDescricao === filtroSetor;
+  };
+
+  const empresasFiltradas = empresas.filter(filterEmpresa).filter(filterSetor);
 
   return (
+    <>
+    <div style={{ display: 'flex', gap: '10px' }} >
+        <input
+          type="text"
+          value={filtroEmpresa}
+          onChange={(e) => setFiltroEmpresa(e.target.value)}
+          placeholder="Filtrar por razão social..."
+        />
+        <select
+          value={filtroSetor}
+          onChange={(e) => setFiltroSetor(e.target.value)}
+        >
+          <option value="">Todos os setores</option>
+          {Object.values(setores).map((descricao) => (
+            <option key={descricao} value={descricao}>{descricao}</option>
+          ))}
+        </select>
+      </div>
     <Table>
       
       <Thead>
@@ -94,25 +107,20 @@ const GridEmpresa = ({ empresas, setEmpresas, setOnEdit }) => {
         </Tr>
       </Thead>
       <Tbody>
-        {empresas.map((item, i) => (
+        {empresasFiltradas.map((item, i) => (
           <Tr key={i}>
             <Td width="30%">{item.razao_social}</Td>
             <Td width="30%">{item.nome_fantasia}</Td>
             <Td width="20%" onlyWeb>
               {item.cnpj}
-            </Td>
-            <Td>{setores[item.id_setor]}</Td> {/* Renderizando o nome do setor */}
-            <Td alignCenter width="5%">
-              <FaEdit onClick={() => handleEdit(item)} />
-            </Td>
-            <Td alignCenter width="5%">
-              <FaTrash onClick={() => handleDelete(item.id)} />
-            </Td>
+            </Td>   
+            <Td>{setores[item.id_setor]}</Td>         
           </Tr>
         ))}
       </Tbody>
     </Table>
+    </>
   );
 };
 
-export default GridEmpresa;
+export default GridComFiltros;
